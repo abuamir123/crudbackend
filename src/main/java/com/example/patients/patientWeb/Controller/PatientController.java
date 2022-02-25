@@ -1,6 +1,9 @@
 package com.example.patients.patientWeb.Controller;
 
 import java.util.List;
+import java.util.Optional;
+
+import javax.el.PropertyNotFoundException;
 
 import com.example.patients.patientWeb.Repository.PatientRepository;
 import com.example.patients.patientWeb.Services.PatientService;
@@ -90,5 +93,16 @@ public class PatientController {
 		Patient updatePatient = patientRepository.save(patients);
 		return ResponseEntity.ok(updatePatient);
 	}
-    
+
+
+    @GetMapping("/patient/{id}")
+  public Patient retrieveStudent(@PathVariable long id) {
+    Optional<Patient> patient = patientRepository.findById(id);
+    if (!patient.isPresent()){
+    throw new PropertyNotFoundException("id-" + id);}
+
+    return patient.get();
+  }
 }
+    
+
